@@ -1,0 +1,62 @@
+/*Footer*/
+footer {
+  margin-top: 5rem;
+}
+i.fa.fa-github {
+  margin-left: 15px;
+  margin-top:5px;
+  font-size: 3.5em;
+  vertical-align: middle;
+}
+a.glyphicon.glyphicon-envelope {
+  margin-left: 10px;
+  margin-top:5px;
+  font-size: 2.5em;
+  top: 0.5em;
+}
+/* End Footer*/
+body {
+  background-color: #dc143c;
+}
+
+.title {
+  font-size: 3em;
+  font-family: "Luckiest Guy";
+  color: #FCFBE3;
+  margin: 10px auto 25px auto;
+  text-align: center;
+}
+
+.avatar {
+  border: 2px solid blue;
+  height: 50px;
+  width: 50px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.leaderboard {
+  margin: 20px auto;
+  width: 95%;
+  border: 2px solid #ddd;
+}
+.leaderboard th {
+  background-color: #b3b3b3;
+}
+.leaderboard tr {
+  background-color: #ddd;
+}
+.leaderboard tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+.leaderboard td, .leaderboard th {
+  padding: 8px;
+  text-align: center;
+}
+.leaderboard td:nth-child(2), .leaderboard th:nth-child(2) {
+  text-align: left;
+}
+.leaderboard td .wait, .leaderboard th .wait {
+  font-size: 30px;
+  color: #FCFBE3;
+}

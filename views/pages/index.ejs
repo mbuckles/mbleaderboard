@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="title text-center">Free Code Camp Leaderborard
+    </div>
+    <div id="mainboard"></div>
+  </div>
+ <footer>
+   <% include ../partials/footer.ejs %>
+   <script>
+   'use strict';
+
+   function newList(url) {
+     return axios.get(url);
+   }
+   var MainList = React.createClass({
+     displayName: 'MainList',
+
+     getInitialState: function getInitialState() {
+       return {
+         campers: [],
+         sort: 'recent',
+         loading: true
+       };
+     },
+     componentDidMount: function componentDidMount() {
+       var _this = this;
+
+       var url = this.state.sort === 'recent' ? recURL : allUrl;
+
+       newList(url).then(function (response) {
+         _this.setState({
+           campers: response.data,
+           loading: false
+         });
+       });
+     },
+     doSorting: function doSorting() {
+       var _this2 = this;
+
+       var sort = this.state.sort === 'recent' ? 'total' : 'recent';
+
+       var url = sort === 'recent' ? recURL : allURL;
+
+       this.setState({
+         loading: true
+       });
+
+       newList(url).then(function (response) {
+         _this2.setState({
+           sort: sort,
+           loading: false,
+           campers: response.data
+         });
+       });
+     },
+     render: function render() {
+       if (this.state.loading) {
+         return React.createElement(
+           'div',
+           null,
+           React.createElement('i', { className: 'fa fa-spinner fa-spin fa-4x', 'text-default': true })
+         );
+       } else {
+         return React.createElement(
+           'div',
+           null,
+           React.createElement(BtnSort, {
+             sort: this.state.sort,
+             update: this.doSorting }),
+           React.createElement(
+             LeaderList,
+             null,
+             this.state.campers.map(function (camper, index) {
+               return React.createElement(Name, {
+                 info: camper,
+                 rank: index + 1 });
+             })
+           )
+         );
+       }
+     }
+   });
+   var recURL = 'https://fcctop100.herokuapp.com/api/fccusers/top/recent';
+   var allURL = 'https://fcctop100.herokuapp.com/api/fccusers/top/alltime';
+   function LeaderList(props) {
+     return React.createElement(
+       'table',
+       { className: 'leaderboard' },
+       React.createElement(
+         'thead',
+         null,
+         React.createElement(
+           'tr',
+           null,
+           React.createElement(
+             'th',
+             null,
+             '#'
+           ),
+           React.createElement(
+             'th',
+             null,
+             'Name'
+           ),
+           React.createElement(
+             'th',
+             null,
+             'Points - Last 30 Days'
+           ),
+           React.createElement(
+             'th',
+             null,
+             'Total Camp Points'
+           )
+         )
+       ),
+       React.createElement(
+         'tbody',
+         null,
+         props.children
+       )
+     );
+   }
+
+   function Name(props) {
+     var info = props.info;
+     var rank = props.rank;
+
+     return React.createElement(
+       'tr',
+       null,
+       React.createElement(
+         'td',
+         null,
+         rank
+       ),
+       React.createElement(
+         'td',
+         null,
+         React.createElement(
+           'a',
+           { href: 'https://www.freecodecamp.com/' + info.username },
+           React.createElement('img', { className: 'avatar', src: info.img }),
+           info.username
+         )
+       ),
+       React.createElement(
+         'td',
+         null,
+         info.recent
+       ),
+       React.createElement(
+         'td',
+         null,
+         info.alltime
+       )
+     );
+   }
+
+   function BtnSort(props) {
+     var btnSwitch = props.sort === 'recent' ? 'Total' : 'Last 30 Days';
+
+     return React.createElement(
+       'button',
+       { onClick: props.update, className: 'btn btn-lg btn-default btn-sort center-block' },
+       'Show Points ',
+       btnSwitch
+     );
+   }
+
+   ReactDOM.render(React.createElement(MainList, null), document.getElementById('mainboard'));
+   </script>
+ </footer>
+</html>
+</body>
